@@ -4,6 +4,9 @@ from food import Food
 from scoreboard import ScoreBoard
 import time
 
+SCREEN_MAX_EDGE = 296
+SCREEN_MIN_EDGE = -296
+
 screen = Screen()
 screen.setup(width=600, height=600)
 screen.bgcolor("black")
@@ -12,6 +15,8 @@ screen.tracer(0)
 
 snake = Snake()
 food = Food()
+
+
 scoreboard = ScoreBoard()
 
 screen.listen()
@@ -30,15 +35,19 @@ while game_is_on:
 
     snake.move()
 
-# detect collision with food - random placement of food and once snake collides with food create another piece
     if snake.head.distance(food) < 15:
         food.refresh()
+        snake.extend()
         scoreboard.update_score_board()
 
+    if snake.head.xcor() > SCREEN_MAX_EDGE or snake.head.xcor() < SCREEN_MIN_EDGE or snake.head.ycor() > SCREEN_MAX_EDGE or snake.head.ycor() < SCREEN_MIN_EDGE:
+        game_is_on = False
+        scoreboard.game_over()
 
-# create scoreboard
-# snake length grows
-# determine when game should end - hit wall or hit itself
+    # detect tail collision
+    # if the head collides with any of the other segements:
+    #       game_is_on = False
+    #       scoreboard.game_over()
 
 
 screen.exitonclick()
