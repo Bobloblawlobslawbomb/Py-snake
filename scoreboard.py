@@ -15,12 +15,13 @@ class ScoreBoard(Turtle):
         self.penup()
         self.color(TURTLE_COLOR)
         self.goto(BOARD_LOCATION)
+        self.high_score = 0
         self.current_score = STARTING_SCORE
         self.display_score()
 
     def display_score(self):
         self.write(
-            f"Score: {self.current_score}",
+            f"Score: {self.current_score} High Score: {self.high_score}",
             MOVE,
             ALIGN,
             FONT
@@ -28,14 +29,24 @@ class ScoreBoard(Turtle):
 
     def update_score_board(self):
         self.clear()
-        self.current_score += 1
         self.display_score()
 
-    def game_over(self):
-        self.goto(0, 0)
-        self.write(
-            "GAMEOVER.",
-            MOVE,
-            ALIGN,
-            FONT
-        )
+    def increase_score(self):
+        self.current_score += 1
+        self.clear()
+        self.update_score_board()
+
+    def reset(self):
+        if self.current_score > self.high_score:
+            self.high_score = self.current_score
+        self.current_score = STARTING_SCORE
+        self.update_score_board()
+
+    # def game_over(self):
+    #     self.goto(0, 0)
+    #     self.write(
+    #         "GAMEOVER.",
+    #         MOVE,
+    #         ALIGN,
+    #         FONT
+    #     )
